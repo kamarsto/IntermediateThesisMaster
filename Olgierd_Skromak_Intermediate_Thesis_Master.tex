@@ -47,16 +47,22 @@
 \IntermediateMasterThesis % Praca przejściowa magisterska
 \langpol % Praca w języku polskim
 
+\newcommand{\tn}{\textnormal}
+
+\providecommand{\sat}{\operatorname{sat}}
+\providecommand{\sgn}{\operatorname{sgn}}
+
+
 \begin{document}
 
 %------------------
 % Strona tytułowa
 %------------------
-\instytut{Zakład Automatyki i Osprzętu Lotniczego}
+\instytut{Zakład Mechaniki}
 \kierunek{Lotnicwo i Kosmonautyka}
-\specjalnosc{Automatyka i Systemy Lotnicze}
+\specjalnosc{Kosmonautyka}
 \title{
-    Porównanie dokładności metod interpolacji współczynników sił oddziałujących na satelitę
+    Stanowisko pomiarowe odpowiedzi układu wykonawczego systemu sterowania rakiet do badań Hardware-in-the-Loop
 }
 % Title in English for English theses
 % In English theses, you may remove this command
@@ -106,6 +112,16 @@
 \cleardoublepage % Zaczynamy od nieparzystej strony
 \pagestyle{headings}
 
+\input{Sections/Wstep.tex}
+\clearpage
+\input{Sections/BadanyObiekt.tex}
+\clearpage
+\input{Sections/Motywacja.tex}
+\clearpage
+\input{Sections/Casket.tex}
+\clearpage
+\input{Sections/Badania.tex}
+\clearpage
 
 % \input{tex/1-wstep}         % Wygodnie jest trzymać każdy rozdział w osobnym pliku.
 % \input{tex/2-de-finibus}    % Umożliwia to również łatwą migrację do nowej wersji szablonu:

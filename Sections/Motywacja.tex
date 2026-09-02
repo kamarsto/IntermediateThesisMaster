@@ -1,2 +1,44 @@
 \section{Motywacja i cel pracy}
 \label{sec:motywacja}
+Stworzenie dokładnego modelu symulacyjnego rakiety sterowanej FOK 2
+jest krokiem niezbędnym do powodzenia misji rakiety - dolecenia do celu.
+Wymaga to stworzenia modeli ruchu, aerodynamiki, oprogramowania, a także modelu układu wykonawczego systemu sterowania rakiety.
+Stworzenie modelu układu wykonawczego wymaga zidentyfikowana modelu, który będzie w stanie odwzorować zachowanie rzeczywistego układu wykonawczego
+oraz jego parametrów. Zachowanie całego systemu różni się od zachowania jego poszczególnych elementów, dlatego taki model należy tworzyć w oparciu o badania całego układu.
+Ponadto w \cite{olgierd} zidentyfikowano potrzebę wprowadzenia poprawek do każdego 
+Została więc zidentyfikowana potrzeba stworzenia stanowiska badawczego, które umożliwi 
+powtarzalny pomiar odpowiedzi układu wykonawczego systemu sterowania rakiety w celu zebrania 
+danych do identyfikacji modelu.
+Jednym z etapów testowania rakiet \cite{cos} jest przeprowadzanie symulacji Hardware-in-the-Loop (HIL).
+Ma on na celu weryfikacje modeli symulacyjnych, oprogramowania i integracji systemów. 
+Takie testy są tym wierniejsze rzeczywistemu lotowi im bardziej go odzwierciedlają.
+
+O ile w przypadku rakiety FOK 2 możliwe jest wpięcie bezpośrednio komputera pokładowego
+rakiety do symulacji, to wymaga to wprowadzenia zmian w konfiguracji oprogramowania względem konfiguracji lotnej.
+Może to powodować różnice w zachowaniu systemu a tym samym zmniejszać wierność symulacji.
+Dodanie do symulacji HIL rzeczywistego układu wykonawczego systemu sterowania pozwala 
+na urzeczywistnienie wyjścia z algorytmu sterowania - wychylenia sterów. Wprowadzenie 
+zewnętrznego urządzenia pomiarowego pozwala, natomiast na uniezależnienie się od ograniczeń
+wbudowanego w rakietę systemu pomiarowego wychylenia sterów, który jest obarczony błędami 
+i ograniczeniami. Ponadto, pozwala to na zmitygowanie opóźnień związanych z przetwarzaniem i transmisją sygnału.
+
+Ostatecznym celem zespołu rozwijającego rakietę FOK 2 w obszarze możliwości przeprowadzania 
+symulacji HIL jest stworzenie systemu umożliwiającego na przeprowadzenie misji rakiety lotu do celu
+całkowicie w symulacji HIL, bez potrzeby przeprowadzania lotu testowego. Podczas takiej symulacji
+rakieta nie powinna \textit{widzieć} różnicy między nią, a rzeczywistym lotem. Do przeprowadzenia 
+takiej symulacji do omawianego w tej pracy stanowiska, wymagane jest dołożenie 
+stanowiska testowego dla systemu wizyjnego (SPACE) rozwijanego w ramach \cite{Skromak2025HITL}
+tworząc tym samym kompletne stanowisko testo HIL rakiety FOK 2 (SHED) \cite{skromak2026hilall}.
+
+
+\subsection{Cele pracy}
+Praca ma stanowić przede wszystkim charakter użytkowy w prowadzeniu badań HIL rakiety FOK 2, a w szczególności jej układu wykonawczego.
+Postawiono więc następujące cele pracy:
+\begin{itemize}
+    \item Stworzenie dokumentacji stanowiska badawczego układu wykonawczego systemu sterowania rakiety FOK 2 (CASKET),
+    \item Udokumentowanie symulacji HIL zarówno na komputerze osobistym jak i komputerze czasu rzeczywistego,
+    Umożliwienie przeprowadzenia badań HIL rakiety FOK 2 członkom Zespołu.
+    \item Identyfikacja modelu układu wykonawczego systemu sterowania rakiety FOK 2.
+    \item Przedstawienie ograniczeń, problemów i pól do dalszych ulepszeń stworzonego stanowiska badawczego.
+    \item Przedstawienie dalszych kierunków badań HIL rakiety FOK 2.
+\end{itemize}
