@@ -1,13 +1,218 @@
 \section{Casket}
 \label{sec:casket}
+CASKET jest stanowiskiem do pomiaru wychylenia sterów rakiet.
+Jego zastosowania to: identyfikacja parametrów systemów sterowania
+oraz przeprowadzanie symulacji HIL.
 \subsection{Założenia}
 \label{subsec:casket-zalozenia}
+% \todo[inline]{Przetłumaczyć rozdział motivation z hilowego artykułu tutaj}
+Dokładne modelowanie układu wykonawczego systemu sterowania rakiety (ang. Control Actuation System, CAS)
+jest kluczowe podczas projektowania algorytmów sterowania. FOk 2 jest w stanie mierzyć wychylenie
+sterów, a konkretnie kąt obrotu serwomechanizmów. Jednak, w \cite{olgierd}, zauważono, 
+że serwomechanizmy mierzą kąt obrotu ze znacznym błędem. Różnica między faktycznym wychyleniem steru,
+a odczytem z serwomechanizmu jest ponadto zwiększona przez luzy obecne w systemie sterowania. 
+W związku z tym, nie jest możliwe dokładny pomiar wychylenia steru, przez wbudowany w rakietę serwomechanizm. 
+Chęć przeprowadzania symulacji HIL przedstawia przed wbudowanym układem pomiarowym dodatkowe wyzwania.
+Są to: opóźnienie, częstotliwość i dokładność pomiaru. Przez ograniczenia w częstotliwości zapytań do serwomechanizmów
+możliwe jest ich odpytywanie z częstotliwością \SI{50}{\hertz}. Wprowadza to dodatkowe, niedopuszczalne opóźnienia
+do symulacji HIL. Dokładność pomiaru kąta obrotu tarczy serwomechanizmu jest ograniczona przez jego rozdzielczość, 
+która wynosi \SI{0.325}{\degree}. Daje to dokładność pomiaru wychylenia steru na poziomie \SI{0.125}{\degree}. 
+Mniejsze różnice w obrocie nie są w ogóle mierzone czyniąc pomiar szybkości wychylenia steru niepraktycznym.
+
+Celem stworzenia stanowiska CASKET jest stawienie czoła przed tymi problemami. 
+Stanowisko zostało zaprojektowane z następującymi założeniami \cite{ESAPAC2026_HIL}:
+\begin{enumerate}
+    \item umożliwienie pomiaru wychylenia sterów, nie serwomechanizmów,
+    \item pomiar wychylenia sterów z większą dokładnością niż wbudowany w rakietę system.
+    \item możliwość pomiaru szybkości wychylenia sterów,
+    \item pomiar wychylenia sterów z dużą częstotliwością, cel został ustalony na częstotliwość symulacji - \SI{1600}{\hertz},
+    \item komunikacja zarówno z komputerem osobistym, jak i z komputerem czasu rzeczywistego - Speedgoat,
+    \item możliwość charakteryzacji następujących parametrów układu wykonawczego \begin{itemize}
+        \item nieliniowiści w układzie pomiarowym,
+        \item luzy w układzie wykonawczym,
+    \end{itemize}
+    \item ocena osiągów systemu podczas pracy z obciążeniem.
+\end{enumerate}
+Ponadto kilka celów funkcjonalnych zostało ustalonych w celu zwiększenia użyteczności stanowiska:
+\begin{itemize}
+    \item system powinien być łatwy w obsłudze, tak by mozliwa była jego obsługa z minimalnym przeszkoleniem,
+    \item system powinien być dostosowywalny do różnych średnic rakiet i wielkości sterów.
+    \item system powinien się nadawać do przeprowadzania testów przed testem lotnym rakiety.
+\end{itemize}
+
+Ostatni cel sugeruje, że używanie systemu nie powinno wymagać wprowadzania zmian w rakiecie względem konfiguracji lotnej. 
+Sugeruje też, że umieszczenie rakiety w stanowisku powinno być szybkie.
+
+
 \subsection{Projekt i realizacja}
 \label{subsec:casket-projekt}
+% \todo[inline]{Przetłumaczyć rozdział design z hilowego artykułu tutaj}
+Rdzeniem zaprojektowanego stanowiska jest układ pomiarowy wychylenia sterów.
+Do pomiaru wychylenia sterów użyto enkodera magnetycznego MA600 \cite{mps_ma600_2023}.
+Enkoder magnetyczny został wybrany ze względu na ułatwienie montażu i demontażu rakiety w stanowisku - eliminuje on konieczność
+mocowania CAS w CASKETcie co pozwala na szybsze umieszczenie rakiety w stanowisku. Ten konkretny enkoder został wybrany
+ze względu na jego dokładność, ciągły pomiar kąta obrotu, szybkość odczytu, pomiar prędkości obrotu, duże pasmo przenoszenia,
+możliwości konfiguracji a także interfejs SPI. Spodziewane komplikacje wynikające
+z użycia enkodera magnetycznego to błędy wynikające ze złego ustawienia magnesu względem enkodera oraz kalibracja.
+
+4 sensory są połączone z mikrokontrolerem Raspberry Pi Pico 2 W, który jest odpowiedzialny za odczyt danych z enkoderów
+i ich przesyłanie do komputera osobistego lub komputera czasu rzeczywistego.
+Głównym interfejsem używanym do komunikacji z komputerem czasu rzeczywistego jest SPI.
+Dokonano prób użycia tego interfejsu do komunikacji z komputerem osobistym jednak nie udało się znaleźć rozwiązania, 
+które byłoby zarówno proste w konfiguracji, użyciu i działałoby z \textit{Simulink}iem. Wypróbowano użycie konwertera sygnału,
+jednak nie znaleziono rozwiązania dającego satysfakcjonujące rezultaty. Obecnie do komunikacji
+z komputerem osobistym używany jest port szeregowy dostępny przez USB lub WiFi \todo{no wifi to trzeba jeszcze zaimplementować}. 
+Schemat połączeń jest przedstawiony na Rysunku~\ref{fig:casket-projekt-connectivity}.
+\begin{figure}[htbp]
+    \centering
+    \missingfigure{Casket connectivity diagram}
+    \caption{Casket connectivity diagram}
+    \label{fig:casket-projekt-connectivity}
+\end{figure}
+
+Czujniki zamocowane są na platformach, których pozycja w płaszczyźnie poziomej jest regulowana za pomocą stolików XY wyposażonych w śruby mikrometryczne.
+Pozawala to na kompensację ustawienia sensora względem magnesu.
+
+Magnesy są umieszczone na specjalnie zaprojektowanych zamiennikach sterów rakiety, w ich osi obrotu.
+Zamienniki sterów są ponadto wyposażone w zaczepy umożliwiające ich zamocowanie do nich sprężyn, które symulują obciążenie aerodynamiczne.
+Zamienniki sterów są przedstawione na Rysunku~\ref{fig:casket-projekt-zamienniki}.
+
+\begin{figure}[htbp]
+    \centering
+        \missingfigure{Zamienniki sterów}
+    \caption{Zamienniki sterów rakiety FOK 2 z magnesami i zaczepami do sprężyn}
+    \label{fig:casket-projekt-zamienniki}
+\end{figure}
+
+Stanowisko jest wykonane z profili aluminiowych, ma wymiary \SI{0.56}{\meter} x \SI{0.61}{\meter} x \SI{0.61}{\meter}.
+Rakieta jest mocowana w stanowisku za pomocą adapterów wykonanych technologią druku 3D.
+Zastosowanie adapterów pozwala na dostosowanie stanowiska do rakiet o różnych średnicach.
+Bez zmian w użytych profilach aluminiowych możliwe jest testowanie rakiet o średnicach do \SI{110}{\milli\meter}.
+Maksymalna odległość między osią rakiety a końcem symulatora steru może wynieść \SI{157}{\milli\meter}.
+Obecnie stanowisko przystosowane jest do testowania rakiety FOK 2. CASKET przedstawiony jest na Rysunku~\ref{fig:casket-projekt-fok-in-casket}
+.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Figures/CASKET2.JPG}
+    \caption{FOK 2 w stanowisku CASKET \cite{ESAPAC2026_HIL}}
+    \label{fig:casket-projekt-fok-in-casket}
+\end{figure}
+
 \subsubsection{Symulacja obciążenia aerodynamicznego}
 \label{subsubsec:casket-projekt-obciazenie}
 \todo[inline]{wstawic ile wychodzi z MD lub CFD}
 \subsection{Oprogramowanie}
 \label{subsec:casket-oprogramowanie}
+Oprogramowanie \textit{CASKET}a, podobnie jak oprogramowanie rakiety FOK 2, jest oparte na FreeRTOS i napisane w języku C++.
+Oba urządzenia są obsługiwane przez ten sam mikrokontroler - Raspberry Pi Pico 2 W. Użycie tej 
+samej platformy i systemu operacyjnego pozwala na zminimalizowanie liczby koniecznych kompetencji do obsługi obu urządzeń.
+Oprogramowanie CASKET jest celowo zaprojektowane tak, by było możliwie proste.
+Podstawowe funkcjonalności to:
+\begin{enumerate}
+    \item odczyt danych z czujników,
+    \item przesyłanie danych do komputera osobistego lub komputera czasu rzeczywistego.
+\end{enumerate}
+
+Ponad te funkcjonalności, oprogramowanie \textit{CASKET}a umożliwia:
+\begin{itemize}
+    \item obsługę podstawowych komend konfiguracyjnych,
+    \item wyzerowanie czujników.
+\end{itemize}
+
+Podobnie jak w przypadku rakiety FOK 2, \textit{CASKET} nie przechowuje trwale swoich stanów. W związku z tym,
+po każdym włączeniu, oprogramowanie \textit{CASKET}a wymaga ponownej konfiguracji. Domyślna konfiguracja 
+może być zmieniona przez rekompilację kodu źródłowego - jest zawarta w pliku \texttt{casketConfig.hpp}.
+Takie rozwiązania eliminuje konieczność implementowania w oprogramowaniu \textit{CASKET}a mechanizmów przechowywania konfiguracji, jednak wskazana jest możliwość konfigurowania \textit{CASKET}a przez pliki konfiguracyjne,
+np \textit{YAML}, co pozwoliłoby osobom nieposiadającym kodu źródłowego lub skonfigurowanego środowiska programistycznego na zmianę konfiguracji \textit{CASKET}a.
+Schemat działania oprogramowania \textit{CASKET}a jest przedstawiony na Rysunku~\ref{fig:casket-projekt-oprogramowanie}.
+Oprogramowanie \textit{CASKET}a wykorzystuje oba rdzenie mikrokontrolera, jeden rdzeń odpowiedzialny jest
+za odczyt danych z czujników, a drugi za pozostałe funkcjonalności. Takie rozwiązanie pozwala na maksymalizację częstotliwości odczytu danych z czujników.
+Oprogramowanie \textit{CASKET}a składa się z następujących \textit{task}ów:
+\begin{itemize}
+    \item odczyt danych z czujników,
+    \item przesyłanie danych za pomocą SPI,
+    \item przesyłanie danych za pomocą USB,
+    \item przesyłanie danych za pomocą WiFi,
+    \item obsługa komend konfiguracyjnych,
+    \item miganie diodą LED sygnalizującą stan oprogramowania.
+\end{itemize}
+Ponadto task odczytujący dane z czujników na początku działania konfiguruje czujnik, tak by zapewnić pożądany tryb pracy.
+
+\begin{figure}[htbp]
+    \centering
+        \missingfigure{Schemat oprogramowania CASKET}
+    \caption{Schemat działania oprogramowania CASKET}
+    \label{fig:casket-projekt-oprogramowanie}
+\end{figure}
+
+Struktura pakietu danych wysyłanego przez \textit{CASKET}a jest następująca:
+\begin{itemize}
+    \item \texttt{1 x uint64\_t} - timestamp w mikrosekundach,
+    \item \texttt{4 x float} - odczyt kąta obrotu z czujników w radianach,
+    \item \texttt{4 x float} - odczyt prędkości obrotu z czujników w radianach na sekundę.
+    \item \texttt{1 x 0xFA},
+    \item checksum - suma kontrolna pakietu danych - XOR całego pakietu.
+\end{itemize}
+Enkodowanie jest w kolejności big-endian.
+
 \subsection{Użytkowanie}
 \label{subsec:casket-uzytkowanie}
+Użytkowanie stanowiska \textit{CASKET}a można podzielić na 3 etapy: przygotowanie stanowiska, umieszczenie rakiety w stanowisku i przeprowadzenie testu.
+\subsection{Przygotowanie stanowiska}
+\label{subsec:casket-przygotowanie}
+W celu przygotowania stanowiska do testu należy sprawdzić sztywność
+połączeń profili aluminiowych oraz sprawdzić czy stoliki XY są w pobliżu położenia neutralnego lub
+w pozycji w jakiej były gdy przeprowadzono poprzedni test.
+
+\subsection{Umieszczenie rakiety w stanowisku}
+\label{subsec:casket-umieszczenie}
+W \textit{CASKET}cie umieszcza się system sterowania rakiety, opcjonalnie z modułem awioniki (Rysunek~\ref{fig:casket-projekt-fok-in-casket}). W tym celu należy:
+\begin{enumerate}
+    \item Wyjąć jeden z druków pozycjonujących rakietę w stanowisku (na Rysunku~\ref{fig:casket-projekt-fok-in-casket} jest to druk różowy).
+    \item Zapewnić, że co najmniej jedna ze śrub mocujących insert górny systemu sterowania do korpusu rakiety jest odkręcona, pozwoli to na przytwierdzenie systemu sterowania do stanowiska.
+    \item Ostrożnie włożyć rakietę w stanowisko, uważając by stery nie zahaczyły ani o profile (wymaga to przekręcenia rakiet w osi podłużnej) ani o czujniki. Jeżeli zajdzie taka konieczność to dostosować położenie czujników wykorzystując stoliki XY lub luzując profile aluminiowe na których stoliki są zamocowane i odsuwając je od rakiety.
+    \item Wkręcić śruby mocujące rakietę do drukowanego adaptera. Sugeruje się użycie co najmniej 2 śrub mocujących, by zapewnić stabilność rakiety w stanowisku. Zaobserwowano przemieszczanie się rakiety względem stanowiska podczas testów przy braku śrub mocujących.
+    \item Włożyć drugi druk pozycjonujący rakietę w stanowisku.
+    \item Spozycjonować magnesy względem czujników. W tym celu należy użyć stolików XY do ustawienia czujników w osi magnesów. Należy tak umieścić magnesy by imitatory sterów znalazły się w drukach pozycjonujących, jednak tak by osie sterów nie były przez nie odchylane.
+\end{enumerate}
+
+W pozycji testowej czujniki powinny znajdować się około \SI{1.2}{\milli\meter} od magnesów \cite{mps_ma730gq_magnet_selection}. W momencie tworzenia pracy
+jest to ustalane bez wykorzystania przyrządów, jednak planowane jest wytworzenie ustalającego przyrządu.
+
+Ponadto, jeżeli używa się \textit{skalibrowanych} serwomechanizmów, czyli takich, których wychylenie steru zostało zbadane i odpowiednie poprawki wprowadzone do komputera pokładowego, rakiety to można skalibrować \textit{CASKET}a używając wychylenia sterów. W tym celu należy:
+\begin{enumerate}
+    \item Wyzerować czujniki \textit{CASKET}a w pozycji neutralnej sterów. 
+    \item Wychylić stery do pozycji maksymalnej, sprawdzić odczyt.
+    \item Wychylić stery do pozycji minimalnej, sprawdzić odczyt.
+    \item Przemieścić stolik XY i ponowić procedurę.
+\end{enumerate}
+Powyższe kroki należy powtarzać do momentu uzyskania satysfakcjonujących wyników. Ulepszenie wymienionej procedury
+opisane jest w podrozdziale~\ref{subsec:rozwoj-korekta}.
+
+\subsection{Przeprowadzenie testu}
+\label{subsec:casket-przeprowadzenie-testu}
+Przed przeprowadzeniem testu należy sprawdzić konfigurację \textit{CASKET}a. Zaleca się 
+rekompilację i wgranie oprogramowania \textit{CASKET}a do mikrokontrolera przed każdą serią testów.
+
+W pliku konfiguracyjnym \texttt{casketConfig.hpp} można ustawić:
+\begin{itemize}
+    \item przypisanie sterów do czujników,
+    \item częstotliwość odczytu danych z czujników,
+    \item częstotliwość przesyłania danych do komputera osobistego lub komputera czasu rzeczywistego,
+    \item domyślny odbiornik danych - komputer osobisty lub komputer czasu rzeczywistego (można przełączyć w trakcie testu),
+    \item konfigurację interfejsu SPI - piny, baudrate, długość słowa,
+    \item konfigurację interfejsu UDP - port, adres IP.
+\end{itemize}
+
+Ponadto możliwe jest wprowadzenie następujących komend konfiguracyjnych w trakcie testu:
+\begin{itemize}
+    \item \texttt{calibrate} - przeprowadza automatyczną kalibrację czujników opisaną w podrozdziale~\ref{subsec:rozwoj-korekta},
+    \item \texttt{getstate} - wyświetla obecne pomiary wychylenia sterów i prędkości ich wychylenia w konsoli mikrokontrolera,
+    \item \texttt{help} - wyświetla listę dostępnych komend,
+    \item \texttt{reboot} - restartuje mikrokontroler,
+    \item \texttt{serial} - ustawia wysyłanie danych do komputera osobistego po USB, argumenty to: \texttt{enable} lub \texttt{disable},
+    \item \texttt{spi} - ustawia wysyłanie danych do komputera czasu rzeczywistego po SPI, argumenty to: \texttt{enable} lub \texttt{disable},
+    \item \texttt{wifi} - ustawia wysyłanie danych do komputera osobistego po WiFi, argumenty to: \texttt{enable} lub \texttt{disable}.
+    \item \texttt{zero} - ustawia zero czujników w aktualnej pozycji sterów.
+\end{itemize}

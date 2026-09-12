@@ -1,0 +1,53 @@
+\section{Rozwój}
+\label{sec:rozwoj}
+W toku dotychczasowych prac nad stanowiskiem 
+testowym \cite{ESAPAC2026_HIL,skromak2026hilall} zidentyfikowano 
+kilka aspektów do poprawy w działaniu stanowiska, które
+nie zostały zrealizowane w ramach tej pracy. 
+Te aspekty to:
+\begin{itemize}
+    \item Możliwość wprowadzenia korekty mierzonych wychyleń sterów.
+    \item Zwiększenie częstotliwości wysyłania danych przez \textit{CASKET}.
+\end{itemize}
+
+\subsection{Wbudowana w \textit{CASKET} korekta wychyleń sterów}
+\label{subsec:rozwoj-korekta}
+Obecnie użycie bezkontaktowych czujników magnetycznych sprawia,
+że pomiar kąta wykonywany przez \textit{CASKET} jest niedokładny
+i zależy od względnego ustawienia czujnika i magnesu. 
+zmitygowanie tego problemu polega na iteracyjnych korekcjach ustawienia
+czujnika względem magnesu. Podczas projektowania \textit{CASKET}a 
+została przewidziana taka ewentualność - jest to jedna z przyczyn 
+zastosowania stolików ze śrubami mikrometrycznymi. Proces 
+ten, o ile skuteczny i jednorazowy dla jednego włożenie układu sterowania w urządzenie pomiarowe, 
+o tyle znacznie wydłuża czas przygotowania do pierwszego testu, 
+a jego wynik w dużej mierze zależy od operatora wprowadzającego poprawki.
+Pożądane jest więc wprowadzenie automatyzacji procesu. 
+Korekcja względnego ustawienia magnesu i czujnika wciąż jest 
+wskazana, jednak powinna być wspomagana przez poprawki wprowadzone
+w oprogramowaniu stanowiska.
+Zostanie stworzony skrypt, którego zadaniem będzie automatyczne
+wygenerowanie poprawek pomiarowych dla \textit{CASKET}a.
+Jego działanie będzie polegało na wychyleniu sterów na trzy pozycje:
+2 skrajne i zerową, sczytanie pomiarów \textit{CASKET}a
+i następnym takim skorygowaniu pomiarów \textit{CASKET}a, by 
+te punkty leżały możliwie blisko prostej \(y = x\).
+Planuje się do tego zastosować przekształcenie liniowe.
+Należy pamiętać o wpływie luzów występujących w systemie 
+\todo[inline]{Wymyślić czy jest coś lepszego niż średnia z ruchu w jedną i drugą stronę}
+Ta automatyczna procedura może też stanowić ulepszenie 
+względem obecnego ustawiania \textit{zera} czujników, mitygując
+problem luzów w występujący w obecnie używanej procedurze.
+
+\subsection{Zwiększenie częstotliwości \textit{CASKET}a}
+\label{subsec:rozwoj-zwiekszzenie-czestotliwosci}
+O ile możliwe jest prowadzenie pomiarów z częstotliwością \SI{1600}{\hertz},
+to w toku testów zdiagnozowano czasową utratę sygnału z \textit{CASKET}a.
+Problem rozwiązano zmniejszając częstotliwość wysyłanego wychylenia 
+do \SI{800}{\hertz}. Jest to wciąż duża częstotliwość i zmniejszenie
+jej nie wpływa znacząco na symulację.
+\todo[inline]{Policzyć ile czasu przy obecnej częstotliwośc}
+Zwiększenie częstotliwości wysyłanych danych możliwe będzie 
+gdy użyte zostanie \textit{Direct Memory Acces} (DMA) na liniach komunikacyjnych.
+Pierwotnie oszacowano, że zaimplementowanie tej funkcjonalności nie
+będzie konieczne, jednak przeprowadzone testy wykazały, że była to fałszywa hipoteza.

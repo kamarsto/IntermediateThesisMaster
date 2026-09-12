@@ -1,8 +1,13 @@
+%!TEX root%
 %-----------------------------------------------
 %  Engineer's & Master's Thesis Template
 %  Copyleft by Artur M. Brodzki & Piotr Woźniak
 %  Warsaw University of Technology, 2019-2022
 %-----------------------------------------------
+
+% mwart (loaded by wut-thesis.cls) disables \marginpar unless told otherwise;
+% todonotes needs it for margin notes.
+\PassOptionsToClass{withmarginpar}{mwart}
 
 \documentclass[
     bindingoffset=5mm,  % Binding offset
@@ -126,6 +131,8 @@
 \clearpage
 \input{Sections/Rozwoj.tex}
 \clearpage
+\input{Sections/Podsumowanie.tex}
+\clearpage
 
 % \input{tex/1-wstep}         % Wygodnie jest trzymać każdy rozdział w osobnym pliku.
 % \input{tex/2-de-finibus}    % Umożliwia to również łatwą migrację do nowej wersji szablonu:
@@ -154,6 +161,8 @@
 \acronym{\textbf{OBC}}{Onboard computer}
 \acronym{\textbf{SIL}}{Software-in-the-Loop}
 \acronym{\textbf{SKA}}{Studenckie Koło Astronautyczne}
+\acronym{\textbf{SPI}}{Serial Peripheral Interface}
+\acronym{\textbf{UDP}}{User Datagram Protocol}
 \end{longtable}
 \subsection*{Symbole}
 \begin{longtable}{@{}p{0.28\textwidth}@{ --- }p{0.7\textwidth}@{}}
@@ -185,8 +194,8 @@
 \listoffigurestoc    % Spis rysunków.
 \vspace{1cm}         % vertical space
 \listoftablestoc     % Spis tabel.
-\vspace{1cm}         % vertical space
-\listofappendicestoc % Spis załączników
+% \vspace{1cm}         % vertical space
+% \listofappendicestoc % Spis załączników
 
 %-------------
 % Załączniki

@@ -85,12 +85,15 @@ Przy komunikacji z \textit{CASKET}em użycie go pozwoliło na bezpośrednie podp
 mikrokontrolera obsługującego stanowisko pomiarowe do komputera czasu rzeczywistego używając protokołu SPI.
 
 Drugim aspektem wykorzystania komputera czasu rzeczywistego do symulacji HIL jest 
-wykorzystanie go do emulacji pakietów czujnika pokładowego rakiety - VectorNav 200 \cite{vectornav200}.
+wykorzystanie go do emulacji pakietów czujnika pokładowego rakiety - VectorNav 200 \cite{vectornav_vn200}.
 W obecnej konfiguracji czujnik wysyła komputerowi pokładowemu 3 różne pakiety danych o 
 częstotliwość odpowiednio \SI{800}{\hertz}, \SI{400}{\hertz} i \SI{200}{\hertz}:
 \begin{enumerate}
-    \item aa\todo[inline]{opisać krótko}
+    \item przyspieszenie liniowe, prędkość kątowa,
+    \item dane z INS, parametry całkowania INS,
+    \item dane o niepewnościach, ciśnienie, odczyt magnetometru status czujników.
 \end{enumerate}
+Ponadto każdy z pakietów zawiera timestamp.
 Jako, że interfejsem używanym w rakiecie do komunikacji OBC-czujnik jest UART (TTL), 
 to możliwe jest bezpośrednia komunikacja \textit{Speedgoat} - OBC, w której to \textit{Speedgoat}
 emuluje czujnik. Teoretycznie z użyciem konwertera powinno być możliwe zaimplementowanie 
