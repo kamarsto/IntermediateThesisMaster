@@ -19,7 +19,7 @@ zmitygowanie tego problemu polega na iteracyjnych korekcjach ustawienia
 czujnika względem magnesu. Podczas projektowania \textit{CASKET}a 
 została przewidziana taka ewentualność - jest to jedna z przyczyn 
 zastosowania stolików ze śrubami mikrometrycznymi. Proces 
-ten, o ile skuteczny i jednorazowy dla jednego włożenie układu sterowania w urządzenie pomiarowe, 
+ten, o ile skuteczny i jednorazowy dla jednego włożenia układu sterowania w urządzenie pomiarowe, 
 o tyle znacznie wydłuża czas przygotowania do pierwszego testu, 
 a jego wynik w dużej mierze zależy od operatora wprowadzającego poprawki.
 Pożądane jest więc wprowadzenie automatyzacji procesu. 
@@ -46,7 +46,12 @@ to w toku testów zdiagnozowano czasową utratę sygnału z \textit{CASKET}a.
 Problem rozwiązano zmniejszając częstotliwość wysyłanego wychylenia 
 do \SI{800}{\hertz}. Jest to wciąż duża częstotliwość i zmniejszenie
 jej nie wpływa znacząco na symulację.
-\todo[inline]{Policzyć ile czasu przy obecnej częstotliwośc}
+% \todo[inline]{Policzyć ile czasu przy obecnej częstotliwośc}
+Obecnie używanym baudrate jest \SI{2000000}{\bit\per\second}, został on uznany za 
+niezawodny eksperymentalnie. Przy tym baudrate odczytanie wychylenia sterów z \textit{CASKET}a
+powinno zająć \SI{64}{\micro\second}. Natomiast wysłanie pakietu z wychyleniem sterów zajmuje \SI{168}{\micro\second}.
+Działanie sytemu z częstotliwością \SI{1600}{\hertz} powinno być więc teoretycznie możliwe w wyniku lepszego zoptymalizowania oprogramowania \textit{CASKET}a.
+
 Zwiększenie częstotliwości wysyłanych danych możliwe będzie 
 gdy użyte zostanie \textit{Direct Memory Acces} (DMA) na liniach komunikacyjnych.
 Pierwotnie oszacowano, że zaimplementowanie tej funkcjonalności nie

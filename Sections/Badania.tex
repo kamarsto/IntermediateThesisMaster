@@ -108,7 +108,7 @@ W konfiguracji serwa ustawiono pożądany czas przyspieszania na \SI{0}{\s} tym 
 trajektorię zamodelowano jako układ drugiego rzędu. 
 Ponadto na podstawie instrukcji \cite{HerkuleX} przyjęto, że serwomechanizm
 działa w krokach czasowych równych \(h = \SI{11.2}{\milli\s}\). 
-Zakładając, że zadanych kąt steru wynosi \(theta_\tn{f}\) a początkowy przez \(theta_0\).
+Zakładając, że zadany kąt steru wynosi \(\theta_\tn{f}\) a początkowy przez \(\theta_0\).
 Oznaczmy przez \(k\) dany krok czasowy serwa. Pomijając opóżnienie mamy wtedy zmianę kąta steru:
 \begin{equation}
     \theta_\tn{k} = \theta_\tn{f} - \theta_\tn{0}
@@ -242,13 +242,31 @@ Oraz przyjęto opóźnienie komunikacyjne \(\tau = \SI{5}{\milli\s}\) co odpowia
     \label{fig:multisine}
 \end{figure}
 
-Na Rysunku~\ref{fig:step-resp} widać, że odpowiedź niektórych serw jest nieco odbiega od innych (przykładowo ster 2 (Rysunek~\ref{fig:stepresp-canard2})).
+Na Rysunku~\ref{fig:step-resp} widać, że odpowiedź niektórych serw nieco odbiega od innych (przykładowo ster 2 (Rysunek~\ref{fig:stepresp-canard2})).
 Podczas badań zaobserwowano też, nietypowe zachowanie serwomechanizmów w niektórych przebiegach. Może być to spowodowane 
 stanem rozładowania akumulatora. Sugeruje się więc wykonanie większej liczby badań.
 
 \subsection{Symulacja HIL}
 \label{subsec:badania-symulacja-hil}
-\todo[inline]{Porównanie pionizacji HIL i pionizacji MIL}
+% \todo[inline]{Porównanie pionizacji HIL i pionizacji MIL}
+Używając modelu systemu sterowania wyznaczonego w podrozdziale~\ref{subsec:badania-identyfikacja} przeprowadzono porównanie symulacji HIL i MIL na przykładzie misji pionizacji rakiety FOK 2D.
+Rakieta zaczynała z elewacji \(theta = \SI{55}{\degree}\) i azymutu \(phi = \SI{0}{\degree}\) i miała osiągnąć pozycję pionową, zaczynając sterowanie \SI{1.7}{\second} po wykryciu startu.
+Opóźnienie względem tego czasu wynika z filtru dolnoprzepustowego używanego w algorytmie wykrywania startu rakiety.
+Przeprowadzono 3 symulację: symulację używając starego modelu systemu sterowania wyznaczonego w ramach \cite{olgierd}, pierwszego rzędu, oznaczoną jako \textit{Reference}.
+Modelu drugiego rzędu wyznaczonego w ramach podrozdziału~\ref{subsec:badania-identyfikacja}, oznaczoną jako \textit{New model} oraz symulację HIL z użyciem 
+rzeczywistego CAS, oznaczoną jako \textit{HIL}.
+
+Obserwując trajektorię rakiety przedstawioną na Rysunku~\ref{fig:pionizacja-hil-mil-trajektoria} widać, 
+że w każdym z przypadków rakieta osiąga pozycję pionową. Różnice między
+obiema symulacjami MIL są niewielkie. Natomiast w przypadku symulacji HIL widać znacznie
+późniejsze osiągnięcie pozycji pionowej. Najprawdopodobniej spowodowane jest to przez brak osiągnięcia 
+przez serwa pożądanej pozycji \SI{10}{\degree} (Rysunek~\ref{fig:pionizacja-hil-mil-wychylenia}). Jest to spowodowane opisanym w \cite{olgierd,ESAPAC2026_HIL} problemem
+z dokładnością enkodera serw. Przedstawiona symulacja została przeprowadzona bez kompensacji błędu enkodera.
+
+Należy także zauważyć, że opóźnienie w zidentyfikowanym modelu drugiego rzędu jest większe niż w przypadku rzeczywistego systemu sterowania.
+Może to wynikać z faktu, że \textit{tick} serwa w rzeczywistym teście wypadł w innym momencie symulacji lub innym zachowaniem serwa niż zamodelowane.
+Rozbieżność wskazuje na konieczność przeprowadzenie większej liczby badań w celu wyznaczenia bardziej dokładnego modelu systemu sterowania rakiety FOK 2D.
+
 
 
 \begin{figure}[htbp]

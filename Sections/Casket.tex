@@ -7,11 +7,11 @@ oraz przeprowadzanie symulacji HIL.
 \label{subsec:casket-zalozenia}
 % \todo[inline]{Przetłumaczyć rozdział motivation z hilowego artykułu tutaj}
 Dokładne modelowanie układu wykonawczego systemu sterowania rakiety (ang. Control Actuation System, CAS)
-jest kluczowe podczas projektowania algorytmów sterowania. FOk 2 jest w stanie mierzyć wychylenie
+jest kluczowe podczas projektowania algorytmów sterowania. FOK 2 jest w stanie mierzyć wychylenie
 sterów, a konkretnie kąt obrotu serwomechanizmów. Jednak, w \cite{olgierd}, zauważono, 
 że serwomechanizmy mierzą kąt obrotu ze znacznym błędem. Różnica między faktycznym wychyleniem steru,
 a odczytem z serwomechanizmu jest ponadto zwiększona przez luzy obecne w systemie sterowania. 
-W związku z tym, nie jest możliwe dokładny pomiar wychylenia steru, przez wbudowany w rakietę serwomechanizm. 
+W związku z tym, nie jest możliwy dokładny pomiar wychylenia steru, przez wbudowany w rakietę serwomechanizm. 
 Chęć przeprowadzania symulacji HIL przedstawia przed wbudowanym układem pomiarowym dodatkowe wyzwania.
 Są to: opóźnienie, częstotliwość i dokładność pomiaru. Przez ograniczenia w częstotliwości zapytań do serwomechanizmów
 możliwe jest ich odpytywanie z częstotliwością \SI{50}{\hertz}. Wprowadza to dodatkowe, niedopuszczalne opóźnienia
@@ -28,14 +28,14 @@ Stanowisko zostało zaprojektowane z następującymi założeniami \cite{ESAPAC2
     \item pomiar wychylenia sterów z dużą częstotliwością, cel został ustalony na częstotliwość symulacji - \SI{1600}{\hertz},
     \item komunikacja zarówno z komputerem osobistym, jak i z komputerem czasu rzeczywistego - Speedgoat,
     \item możliwość charakteryzacji następujących parametrów układu wykonawczego \begin{itemize}
-        \item nieliniowiści w układzie pomiarowym,
+        \item nieliniowości w układzie pomiarowym,
         \item luzy w układzie wykonawczym,
     \end{itemize}
     \item ocena osiągów systemu podczas pracy z obciążeniem.
 \end{enumerate}
 Ponadto kilka celów funkcjonalnych zostało ustalonych w celu zwiększenia użyteczności stanowiska:
 \begin{itemize}
-    \item system powinien być łatwy w obsłudze, tak by mozliwa była jego obsługa z minimalnym przeszkoleniem,
+    \item system powinien być łatwy w obsłudze, tak by możliwe było jego użytkowanie z minimalnym przeszkoleniem,
     \item system powinien być dostosowywalny do różnych średnic rakiet i wielkości sterów.
     \item system powinien się nadawać do przeprowadzania testów przed testem lotnym rakiety.
 \end{itemize}
@@ -72,10 +72,10 @@ Schemat połączeń jest przedstawiony na Rysunku~\ref{fig:casket-projekt-connec
 \end{figure}
 
 Czujniki zamocowane są na platformach, których pozycja w płaszczyźnie poziomej jest regulowana za pomocą stolików XY wyposażonych w śruby mikrometryczne.
-Pozawala to na kompensację ustawienia sensora względem magnesu.
+Pozwala to na kompensację ustawienia sensora względem magnesu.
 
 Magnesy są umieszczone na specjalnie zaprojektowanych zamiennikach sterów rakiety, w ich osi obrotu.
-Zamienniki sterów są ponadto wyposażone w zaczepy umożliwiające ich zamocowanie do nich sprężyn, które symulują obciążenie aerodynamiczne.
+Zamienniki sterów są ponadto wyposażone w zaczepy umożliwiające zamocowanie ich do sprężyn, które symulują obciążenie aerodynamiczne.
 Zamienniki sterów są przedstawione na Rysunku~\ref{fig:casket-projekt-zamienniki}.
 
 \begin{figure}[htbp]

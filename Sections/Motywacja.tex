@@ -5,11 +5,11 @@ jest krokiem niezbędnym do powodzenia misji rakiety - dolecenia do celu.
 Wymaga to stworzenia modeli ruchu, aerodynamiki, oprogramowania, a także modelu układu wykonawczego systemu sterowania rakiety.
 Stworzenie modelu układu wykonawczego wymaga zidentyfikowana modelu, który będzie w stanie odwzorować zachowanie rzeczywistego układu wykonawczego
 oraz jego parametrów. Zachowanie całego systemu różni się od zachowania jego poszczególnych elementów, dlatego taki model należy tworzyć w oparciu o badania całego układu.
-Ponadto w \cite{olgierd} zidentyfikowano potrzebę wprowadzenia poprawek do każdego 
+Ponadto w \cite{olgierd} zidentyfikowano potrzebę wprowadzenia poprawek do zadanych wychyleń sterów w celu mitygacji błędów enkoderów poszczególnych serwomechanizmów.
 Została więc zidentyfikowana potrzeba stworzenia stanowiska badawczego, które umożliwi 
 powtarzalny pomiar odpowiedzi układu wykonawczego systemu sterowania rakiety w celu zebrania 
 danych do identyfikacji modelu.
-Jednym z etapów testowania rakiet \cite{cos} jest przeprowadzanie symulacji Hardware-in-the-Loop (HIL).
+Jednym z etapów testowania rakiet jest przeprowadzanie symulacji Hardware-in-the-Loop (HIL).
 Ma on na celu weryfikacje modeli symulacyjnych, oprogramowania i integracji systemów. 
 Takie testy są tym wierniejsze rzeczywistemu lotowi im bardziej go odzwierciedlają.
 
@@ -28,7 +28,7 @@ całkowicie w symulacji HIL, bez potrzeby przeprowadzania lotu testowego. Podcza
 rakieta nie powinna \textit{widzieć} różnicy między nią, a rzeczywistym lotem. Do przeprowadzenia 
 takiej symulacji do omawianego w tej pracy stanowiska, wymagane jest dołożenie 
 stanowiska testowego dla systemu wizyjnego (SPACE) rozwijanego w ramach \cite{Skromak2025HITL}
-tworząc tym samym kompletne stanowisko testo HIL rakiety FOK 2 (SHED) \cite{skromak2026hilall}.
+tworząc tym samym kompletne stanowisko testów HIL rakiety FOK 2 (SHED) \cite{skromak2026hilall}.
 
 
 \subsection{Cele pracy}
