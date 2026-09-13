@@ -66,7 +66,7 @@ z komputerem osobistym używany jest port szeregowy dostępny przez USB lub WiFi
 Schemat połączeń jest przedstawiony na Rysunku~\ref{fig:casket-projekt-connectivity}.
 \begin{figure}[htbp]
     \centering
-    \missingfigure{Casket connectivity diagram}
+     \includegraphics[width=0.8\linewidth]{Figures/casketcon.pdf}
     \caption{Casket connectivity diagram}
     \label{fig:casket-projekt-connectivity}
 \end{figure}
@@ -80,7 +80,7 @@ Zamienniki sterów są przedstawione na Rysunku~\ref{fig:casket-projekt-zamienni
 
 \begin{figure}[htbp]
     \centering
-        \missingfigure{Zamienniki sterów}
+        \includegraphics[width=0.8\linewidth]{Figures/zamiennik.png}
     \caption{Zamienniki sterów rakiety FOK 2 z magnesami i zaczepami do sprężyn}
     \label{fig:casket-projekt-zamienniki}
 \end{figure}
@@ -133,9 +133,9 @@ Ponad te funkcjonalności, oprogramowanie \textit{CASKET}a umożliwia:
 Podobnie jak w przypadku rakiety FOK 2, \textit{CASKET} nie przechowuje trwale swoich stanów. W związku z tym,
 po każdym włączeniu, oprogramowanie \textit{CASKET}a wymaga ponownej konfiguracji. Domyślna konfiguracja 
 może być zmieniona przez rekompilację kodu źródłowego - jest zawarta w pliku \texttt{casketConfig.hpp}.
-Takie rozwiązania eliminuje konieczność implementowania w oprogramowaniu \textit{CASKET}a mechanizmów przechowywania konfiguracji, jednak wskazana jest możliwość konfigurowania \textit{CASKET}a przez pliki konfiguracyjne,
+Takie rozwiązanie eliminuje konieczność implementowania w oprogramowaniu \textit{CASKET}a mechanizmów przechowywania konfiguracji, jednak wskazana jest możliwość konfigurowania \textit{CASKET}a przez pliki konfiguracyjne,
 np \textit{YAML}, co pozwoliłoby osobom nieposiadającym kodu źródłowego lub skonfigurowanego środowiska programistycznego na zmianę konfiguracji \textit{CASKET}a.
-Schemat działania oprogramowania \textit{CASKET}a jest przedstawiony na Rysunku~\ref{fig:casket-projekt-oprogramowanie}.
+% Schemat działania oprogramowania \textit{CASKET}a jest przedstawiony na Rysunku~\ref{fig:casket-projekt-oprogramowanie}.
 Oprogramowanie \textit{CASKET}a wykorzystuje oba rdzenie mikrokontrolera, jeden rdzeń odpowiedzialny jest
 za odczyt danych z czujników, a drugi za pozostałe funkcjonalności. Takie rozwiązanie pozwala na maksymalizację częstotliwości odczytu danych z czujników.
 Oprogramowanie \textit{CASKET}a składa się z następujących \textit{task}ów:
@@ -149,12 +149,12 @@ Oprogramowanie \textit{CASKET}a składa się z następujących \textit{task}ów:
 \end{itemize}
 Ponadto task odczytujący dane z czujników na początku działania konfiguruje czujnik, tak by zapewnić pożądany tryb pracy.
 
-\begin{figure}[htbp]
-    \centering
-        \missingfigure{Schemat oprogramowania CASKET}
-    \caption{Schemat działania oprogramowania CASKET}
-    \label{fig:casket-projekt-oprogramowanie}
-\end{figure}
+% \begin{figure}[htbp]
+%     \centering
+%         \missingfigure{Schemat oprogramowania CASKET}
+%     \caption{Schemat działania oprogramowania CASKET}
+%     \label{fig:casket-projekt-oprogramowanie}
+% \end{figure}
 
 Struktura pakietu danych wysyłanego przez \textit{CASKET}a jest następująca:
 \begin{itemize}

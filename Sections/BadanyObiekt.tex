@@ -1,7 +1,7 @@
 \section{Badany obiekt}
 \label{sec:badany-obiekt}
 Rakieta FOK 2 jest wyposażoną w głowicę obrazującą ewolucją rakiety sterowanej FOK.
-Rakieta, przedstawiona na~Rysunku~\ref{fig:badany-obiekt-fok}, sterowana jest aerodynamicznie za pomocą 4 sterów umieszczonych przed
+Rakieta, przedstawiona na~Rysunku~\ref{fig:badany-obiekt-fok}, sterowana jest aerodynamicznie za pomocą 4~sterów umieszczonych przed
 środkiem masy (canardów). Napędzana jest silnikiem na stały materiał pędny o impulsie około
 \SI{1000}{\N\s}. Pozwala to jej osiągnąć pułap \SI{1000}{\m} oraz liczbę Macha \num{0.4}.
 Parametry rakiety FOK 2 przedstawiono w Tabeli~\ref{tab:badany-obiekt-parametry-rakiety}.
@@ -56,7 +56,7 @@ W tej pracy rozważane są konfiguracje rakiety bez informacji z głowicy w pęt
 
 \begin{figure}[htbp]
     \centering
-        \missingfigure{Diagram pętli sterowania foka 2}
+        \includegraphics[width=0.8\linewidth]{Figures/foksimplediagram.pdf}
     \caption{Pętla sterowania rakiety FOK 2}
     \label{fig:badany-obiekt-system-sterowania-petla}
 \end{figure}
@@ -104,5 +104,10 @@ parametry układu wykonawczego. Zmiana wynikała głównie z chęci eliminacji l
 
 \subsubsection{Jednostka pomiarowa INS/GNSS}
 \label{subsubsec:badany-obiekt-system-sterowania-czujnik}
-W rakiecie używana jest jednostka pomiarowa INS/GNSS VectorNav 200. 
-\todo[inline]{Napisać więcej o vnavie}
+W rakiecie używana jest jednostka pomiarowa INS/GNSS VectorNav 200 \cite{vectornav_vn200}. 
+% \todo[inline]{Napisać więcej o vnavie}
+Pozawala ona na wyznaczenie parametrów lotu rakiety. Komunikacja między rakietą a czujnikiem odbywa się za pomocą protokołu UART.
+Został stworzony i umieszczony w symulacji HIL symulator pakietów czujnika, który pozwala na bezpośrednie wpięcie symulacji w pętle sterowania rakiety.
+Model czujnika używany w symulacji jest minimalny, pozbawiony symulacji niepewności i szumów. Planowane jest zaimplementowanie 
+dokładniejszego modelu czujnika, który pozwoli na weryfikację działania algorytmu sterowania rakiety w warunkach bardziej zbliżonych do rzeczywistych.
+

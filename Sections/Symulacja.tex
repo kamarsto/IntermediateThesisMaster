@@ -13,6 +13,10 @@ została zaadaptowana do służenia przeprowadzaniu symulacji HIL.
     \label{fig:symulacja-hil-widok-glowny}
 \end{figure}
 
+W rozdziale zawarty jest instruktaż jak uruchomić symulacje HIL zarówno na komputerze osobistym jak i komputerze czasu rzeczywistego \textit{Speedgoat}.
+Nie jest zagwarantowane, że instrukcje będą działać w przyszłości, jednak czytelnik 
+powinien być w stanie ją zaadaptować do swoich potrzeb by przeprowadzić symulację nawet jeżeli w przyszłości zmieni się konfiguracja symulacji.
+
 \subsection{Dostosowanie symulacji do badań HIL}
 \label{subsec:symulacja-hil-dostosowanie}
 Stworzona symulacja HIL jest modułowa. W szczególności każdy z modułów jest
@@ -72,7 +76,18 @@ w przypadku przeprowadzania symulacji na komputerze osobistym i czasu rzeczywist
 Użycie protokołu SPI do komunikacji z komputerem osobistym wymaga jednak użycia konwertera sygnału.
 Nie udało się znaleźć rozwiązania, które byłoby zarówno proste w konfiguracji, użyciu i działałoby z \textit{Simulink}iem.
 
-\todo[inline]{Tutorial przeprowadzenia symulacji}
+% \todo[inline]{Tutorial przeprowadzenia symulacji}
+W celu przeprowadzenia symulacji należy mieć zainstalowany pakiet \textit{Desktop Real-Time}.
+Model został stworzony w wersji \textit{Matlab}a \textit{R2024b}. Był testowany jedynie na systemie operacyjnym Windows.
+Należy także posiadać kompilator C++ kompatybilny z tą wersją \textit{Matlab}a.
+
+W celu uruchomienia symulacji należy otworzyć skrypt inicjalizujący znajdujący się na repozytorium
+\texttt{fok-hil} w katalogu \texttt{Tests\textbackslash PCSimulation} i otworzyć symulację
+\texttt{PCSimulation}. Należy ponadto uruchomić skrypt \texttt{pythonForwarder.py} znajdujący się na repozytorium \texttt{utils}
+w celu uruchomienia skryptu przekierowującego pakiety do symulacji. Należy upewnić poprawność przypisania portów w skrypcie i symulacji.
+W szczególności należy sprawdzić poprawność adresów IP w rakiecie, \textit{CASKET}cie i symulacji.
+W celu uruchomienia symulacji należy przejść do zakładki \textit{DESKTOP REAL-TIME}, wybrać \textit{MODE} (w lewym górnym rogu) \textit{Run in Kernel}.
+Następnie należy kliknąć \textit{Run in Real Time}. Symulacja powinna się uruchomić. 
 
 \subsubsection{Komputer czasu rzeczywistego}
 \label{subsubsec:symulacja-hil-dostosowanie-komputer-czasu-rzeczywistego}
@@ -108,9 +123,73 @@ czasami odczytu danych co w przypadku prawdziwego lotu.
 
 \begin{figure}[htbp]
     \centering
-        \missingfigure{Schemat komunikacji ze speedgoatem}
+        \includegraphics[width=0.8\linewidth]{Figures/casketdiagram.pdf}
     \caption{Schemat konfiguracji CASKET-Speedgoat}
     \label{fig:symulacja-hil-dostosowanie-komputer-czasu-rzeczywistego-schemat-speedgoat}
 \end{figure}
 
-\todo[inline]{Tutorial przeprowadzenia symulacji}
+% \todo[inline]{Tutorial przeprowadzenia symulacji}
+Procedura przeprowadzania symulacji jest aktualna na dzień pisania pracy.
+Przeprowadzenie symulacji HIL na komputerze czasu rzeczywistego wymaga odpowiedniego skonfigurowania środowiska.
+Wymagane jest zainstalowanie \textit{Simulink Real-Time} \cite{simulink-real-time} oraz \textit{Speedgoat Target Support Package}.
+Ponadto wymagane jest użycie specjalnego zestawu bloczków. Nie jest on publicznie dostępny, jednak członkowie Zespołu mają do nich dostęp.
+Na czas pisania pracy używana jest wersja \textit{Matlab}a \textit{R2024b}. Model był testowany jedynie na systemie operacyjnym Windows.
+Komputer czasu rzeczywistego \textit{Speedgoat} jest w dyspozycji Zakładu Mechaniki, więc dostęp do niego możliwy jest dzięki uprzejmości pracowników Zakładu.
+
+W celu przeprowadzenia symulacji należy podłączyć się do komputera czasu rzeczywistego \textit{Speedgoat} za pomocą 
+przewodu ethernet do portu \textit{Host Link}. Sugerowana jest następująca kolejność działań:
+\begin{enumerate}
+    \item Uruchomienie \textit{MATLAB}a, załadowanie, otwarcie modelu symulacji.
+    \item Uruchomienie \textit{Simulink Real-Time Explorer}. Wpisanie adresu IP komputera \textit{Speedgoat} w polu \textit{IP address}: \texttt{172.22.3.233}.
+    \item Należy następnie nadać karcie sieciowej komputera osobistego adres statyczny adres IP: \texttt{172.22.3.69} i maske podsieci: \texttt{255.255.0.0}.
+    \item Najłatwiej jest wyłączyć zaporę sieciową komputera osobistego dla sieci prywatnych na czas przeprowadzania symulacji. Należy pamiętać o jej ponownym włączeniu po zakończeniu symulacji.
+    \item Należy włączyć komputer czasu rzeczywistego \textit{Speedgoat}.
+    \item Należy ustawić połączenie z komputerem czasu rzeczywistego jako sieć prywatną. Najłatwiej jest to zrobić uruchamiając \textit{PowerShell} w trybie administratora i użyć następujących komend: 
+    \begin{enumerate}
+        \item \texttt{Get-NetConnectionProfile} by wyświetlić listę połączeń sieciowych i znaleźć połącznie z komputerem \textit{Speedgoat}.
+        \item \texttt{Set-NetConnectionProfile -InterfaceIndex N -NetworkCategory Private} gdzie \texttt{N} jest indeksem połączenia z komputerem \textit{Speedgoat}. Ustawi to połączenie jako sieć prywatną.
+    \end{enumerate} 
+    \item Zweryfikować w ustawieniach sieciowych, że sieć jest ustawiona jako prywatna.
+    \item Zweryfikować, że zapora sieciowa jest wyłączona dla sieci prywatnych.
+    \item W \textit{Simulink Real-Time Explorer} należy wybrać \textit{TargetPC1} w lewym górnym rogu i kliknąć w \textit{Disconnected} by połączyć się z komputerem \textit{Speedgoat}.
+\end{enumerate}
+
+Zdarza się, że połączenie z komputerem \textit{Speedgoat} nie może zostać nawiązane. Nie znaleziono konkretnej przyczyny tego problemu.
+Po serii prób resetu komputerów, karty sieciowe, włączenia, wyłączenia zasilania został wyniesiony wniosek, że ten sam efekt 
+można osiągnąć restartując sam komputer czasu rzeczywistego wielokrotnie, za każdym razem czekając po jego wyłączeniu i sprawdzając,
+czy możliwe jest połączenie po jego włączeniu. Zdarza się także, że połaczenie zostaje nawiązane, jednak po próbie uruchomienia symulacji zostaje zerwane.
+Należy wtedy powtórzyć procedurę restartu komputera czasu rzeczywistego. 
+Sugeruje się także rozłączyć z innych sieci, w których komputer osobisty może być podłączony,
+w szczególności z sieci Politechniki, ponieważ używa podobnych zakresów adresów IP.
+
+Schemat portów interfejsu komputera czasu rzeczywistego \textit{Speedgoat} jest dostępny po kliknięciu na bloczki
+komunikacji w modelu symulacji. By połączyć \textit{CASKET} z komputerem czasu rzeczywistego należy użyć portu SPI.
+Przykładowe połączenie przewodów do komputera czasu rzeczywistego \textit{Speedgoat} jest przedstawione na Rysunku~\ref{fig:speedgoat_connection}.
+\textit{CASKET} jest podłączony do wyjść 01-04 i 50. Do portów 17-18, 42-43 i 25 podpięto przewody służące do emulacji czujnika INS/GNSS. 
+\begin{figure}[htbp]
+    \centering
+        \includegraphics[width=0.8\textwidth]{Figures/polaczenie-speedgoat.jpeg}
+    \caption{Podłączenie przewodów do komputera czasu rzeczywistego \textit{Speedgoat}}
+    \label{fig:speedgoat_connection}
+\end{figure}
+
+Na dzień pisania pracy skrypt ładujący model symulacji i sam model znajdują się na repozytorium \texttt{fok-hil} w folderze \texttt{Tests\textbackslash SpeedgoatSimulation}.
+Należy uruchomić skrypt \texttt{initSpeedgoatSimulation.m} by załadować model symulacji by załadować parametry a następnie uruchomić model \texttt{SpeedgoatSimulation.slx}.
+Skrypt zmienia folder roboczy więc należy pamiętać, by nie wrócić podczas uruchamiania modelu do folderu z modelem.
+
+O ile możliwe jest użycie przycisku \textit{Run on Target} do uruchomienia symulacji, to w celu umożliwienia szybszych
+restartów symulacji sugeruje się następującą procedurę:
+\begin{enumerate}
+    \item Wybranie z listy rozwijanej pod przyciskami \textit{Run on Target} opcji \textit{Build Application}.
+    \item Kliknięcie w przycisk \textit{Deploy to Target}.
+    \item Kliknięcie w przycisk \textit{Connect Model}.
+    \item W \textit{Simulink Real-Time Explorer} należy kliknąć w przycisk \textit{Load Application}.
+    \item Wybrać \textit{SpeedgoatSimulation}.
+    \item Kliknąć w przycisk \textit{Start}.
+\end{enumerate}
+Uruchomienie symulacji kolejny raz wymaga jedynie kliknięcia w przycisk \textit{Start} po zakończeniu poprzedniej symulacji.
+Między poszczególnymi krokami należy poczekać, na zakończenie poprzedniego. Możliwe, że dany krok będzie trwał nawet kilka minut.
+Czas ten jest krótszy w przypadku mniej skomplikowanych modeli.
+Sugeruje się także uruchomienie \textit{Data Inspector} w \textit{Simulink Reak-Explorer}. Po pierwszym uruchomieniu symulacji pojawią
+się tam dane wynikowe z symulacji i możliwe będzie stworzenie wykresów. Wraz z uruchamianiem kolejnych symulacji wykresy będą
+umożliwiały podglądanie wyników na żywo. Ponadto \textit{Data Inpsector} umożliwia zapisanie danych do pliku \texttt{.mat} w celu dalszej analizy.

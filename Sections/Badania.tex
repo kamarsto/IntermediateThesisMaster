@@ -250,7 +250,7 @@ stanem rozładowania akumulatora. Sugeruje się więc wykonanie większej liczby
 \label{subsec:badania-symulacja-hil}
 % \todo[inline]{Porównanie pionizacji HIL i pionizacji MIL}
 Używając modelu systemu sterowania wyznaczonego w podrozdziale~\ref{subsec:badania-identyfikacja} przeprowadzono porównanie symulacji HIL i MIL na przykładzie misji pionizacji rakiety FOK 2D.
-Rakieta zaczynała z elewacji \(theta = \SI{55}{\degree}\) i azymutu \(phi = \SI{0}{\degree}\) i miała osiągnąć pozycję pionową, zaczynając sterowanie \SI{1.7}{\second} po wykryciu startu.
+Rakieta zaczynała z elewacji \(\theta = \SI{55}{\degree}\) i azymutu \(\phi = \SI{0}{\degree}\) i miała osiągnąć pozycję pionową, zaczynając sterowanie \SI{1.7}{\second} po wykryciu startu.
 Opóźnienie względem tego czasu wynika z filtru dolnoprzepustowego używanego w algorytmie wykrywania startu rakiety.
 Przeprowadzono 3 symulację: symulację używając starego modelu systemu sterowania wyznaczonego w ramach \cite{olgierd}, pierwszego rzędu, oznaczoną jako \textit{Reference}.
 Modelu drugiego rzędu wyznaczonego w ramach podrozdziału~\ref{subsec:badania-identyfikacja}, oznaczoną jako \textit{New model} oraz symulację HIL z użyciem 
@@ -278,7 +278,7 @@ Rozbieżność wskazuje na konieczność przeprowadzenie większej liczby badań
 
 \begin{figure}[htbp]
     \centering
-        \includegraphics[width=0.8\textwidth]{Figures/Comparison_CanardDeflections.pdf}
+        \includegraphics[width=\textwidth]{Figures/Comparison_CanardDeflections.pdf}
     \caption{Porównanie wychyleń sterów rakiety FOK 2D w symulacji HIL i MIL}
     \label{fig:pionizacja-hil-mil-wychylenia}
 \end{figure}

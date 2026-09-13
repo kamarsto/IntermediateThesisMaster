@@ -33,8 +33,12 @@ Jego działanie będzie polegało na wychyleniu sterów na trzy pozycje:
 i następnym takim skorygowaniu pomiarów \textit{CASKET}a, by 
 te punkty leżały możliwie blisko prostej \(y = x\).
 Planuje się do tego zastosować przekształcenie liniowe.
-Należy pamiętać o wpływie luzów występujących w systemie 
-\todo[inline]{Wymyślić czy jest coś lepszego niż średnia z ruchu w jedną i drugą stronę}
+Należy pamiętać o wpływie luzów występujących w systemie.
+Każdy z punktów zostanie osiągnięty w dwóch kierunkach - raz
+ster się wychyli do położenia \SI{2}{\degree} większego, raz o \SI{2}{\degree} mniejszego. Wartość pomiaru zostanie więc uśredniona z dwóch kierunków.
+Tym samym zostanie zmitygowany wpływ luzów w systemie na pomiar wychylenia steru.
+% \todo[inline]{Wymyślić czy jest coś lepszego niż średnia z ruchu w jedną i drugą stronę}
+Kalibrację należy wykonywać na systemie nieobciążonym, tj. pozbawionym sprężyn.
 Ta automatyczna procedura może też stanowić ulepszenie 
 względem obecnego ustawiania \textit{zera} czujników, mitygując
 problem luzów w występujący w obecnie używanej procedurze.
@@ -53,6 +57,6 @@ powinno zająć \SI{64}{\micro\second}. Natomiast wysłanie pakietu z wychylenie
 Działanie sytemu z częstotliwością \SI{1600}{\hertz} powinno być więc teoretycznie możliwe w wyniku lepszego zoptymalizowania oprogramowania \textit{CASKET}a.
 
 Zwiększenie częstotliwości wysyłanych danych możliwe będzie 
-gdy użyte zostanie \textit{Direct Memory Acces} (DMA) na liniach komunikacyjnych.
+gdy użyte zostanie \textit{Direct Memory Access} (DMA) na liniach komunikacyjnych.
 Pierwotnie oszacowano, że zaimplementowanie tej funkcjonalności nie
 będzie konieczne, jednak przeprowadzone testy wykazały, że była to fałszywa hipoteza.

@@ -57,6 +57,12 @@
 \providecommand{\sat}{\operatorname{sat}}
 \providecommand{\sgn}{\operatorname{sgn}}
 
+\sisetup{
+  round-mode         = figures,
+  round-precision    = 4,
+  exponent-mode      = threshold,
+  exponent-thresholds = -3:5,   % poniżej 10^-3 i powyżej 10^5 -> notacja naukowa
+}
 
 \begin{document}
 
@@ -81,7 +87,7 @@
     Niepotrzebnie długi i skomplikowany tytuł pracy \\
     trudny do przeczytania, zrozumienia i wymówienia
 }
-\author{inż.Olgierd Skromak}
+\author{inż. Olgierd Skromak}
 \album{320987}
 \promotor{dr inż. Dariusz Miedziński}
 \date{\the\year}
