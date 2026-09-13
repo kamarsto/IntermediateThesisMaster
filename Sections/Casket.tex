@@ -61,7 +61,8 @@ Głównym interfejsem używanym do komunikacji z komputerem czasu rzeczywistego 
 Dokonano prób użycia tego interfejsu do komunikacji z komputerem osobistym jednak nie udało się znaleźć rozwiązania, 
 które byłoby zarówno proste w konfiguracji, użyciu i działałoby z \textit{Simulink}iem. Wypróbowano użycie konwertera sygnału,
 jednak nie znaleziono rozwiązania dającego satysfakcjonujące rezultaty. Obecnie do komunikacji
-z komputerem osobistym używany jest port szeregowy dostępny przez USB lub WiFi \todo{no wifi to trzeba jeszcze zaimplementować}. 
+z komputerem osobistym używany jest port szeregowy dostępny przez USB lub WiFi.
+%\todo{no wifi to trzeba jeszcze zaimplementować} 
 Schemat połączeń jest przedstawiony na Rysunku~\ref{fig:casket-projekt-connectivity}.
 \begin{figure}[htbp]
     \centering
@@ -101,7 +102,16 @@ Obecnie stanowisko przystosowane jest do testowania rakiety FOK 2. CASKET przeds
 
 \subsubsection{Symulacja obciążenia aerodynamicznego}
 \label{subsubsec:casket-projekt-obciazenie}
-\todo[inline]{wstawic ile wychodzi z MD lub CFD}
+% \todo[inline]{wstawic ile wychodzi z MD lub CFD}
+W ramach obliczeń przeprowadzonych w ramach \cite{moraczewski2026canard} wyznaczono moment zawiasowy 
+steru dla wychylenia steru \(\delta_{\max} = \SI{10}{\degree}\) przy liczbie Macha \(\tn{Ma} = \num{0.3}\) na poziomie morza.
+Wartość ta wynosi \SI{0.028}{\newton\meter}. Celem jest oszacowanie maksymalnej wartości momentu zawiasowego steru \textit{z góry}. Rakieta FOK obecnie osiąga prędkość maksymalną na poziomie \(\tn{Ma} = 0.4\), jednak 
+jest planowane zwiększenie osiąganej przez nią liczby Macha do \(\tn{Ma} = 0.7\). W związku z tym, po przeskalowaniu
+wartości momentu zawiasowego steru dla \(\tn{Ma} = 0.7\) otrzymano wartość \SI{0.1524444444}{\newton\meter}. 
+Serwomechanizm HerkuleX DRS-0101 użyty w rakiecie FOK 2 jest w stanie wygenerować moment obrotowy na poziomie \SI{0.1667}{\newton\meter}. Biorąc pod uwagę przełożenie w układzie wykonawczym systemu sterowania rakiety FOK 2, które wynosi \(i_\tn{w} = 2.75\), maksymalny moment wywierany na serwomechanizm przez ster wynosi \SI{0.0554343434}{\newton\meter}. 
+Do symulacji obciążenia aerodynamicznego steru użyto sprężyn o stałej sprężystości \(k = \SI{0.2}{\newton\per\milli\meter}\). Umieszczono je na ramieniu \(l = \SI{25}{\milli\meter}\) od osi obrotu steru. Jako, że zamocowane do steru są 2 sprężyny, to zakładając ich prostopadłość do ramienia steru, maksymalny moment wywierany na ster przez sprężyny wynosi \(L = 2\cdot k \cdot l ^ 2 \cdot \sin \delta_{\max}= \SI{0.0434120444}{\newton\meter}\) co odpowiada wartości momentu zawiasowego dla liczby Macha \(\tn{Ma} = 0.3735488109\). Na potrzeby przyszłych testów zostanie odpowiednio 
+zwiększone ramię sprężyn, tak by możliwe było symulowanie momentu zawiasowego steru dla liczby Macha \(\tn{Ma} = 0.7\). Zdecydowano się na użycie mniejszego momentu w celu sprawdzenia działania systemu w warunkach dalszych od granicznych serwomechanizmów.
+
 \subsection{Oprogramowanie}
 \label{subsec:casket-oprogramowanie}
 Oprogramowanie \textit{CASKET}a, podobnie jak oprogramowanie rakiety FOK 2, jest oparte na FreeRTOS i napisane w języku C++.
