@@ -122,7 +122,7 @@ Pożądaną prędkość serwa w danym kroku czasowym \(k\) można wyznaczyć ze 
 Gdzie na podstawie instrukcji \cite{HerkuleX} przyjęto, \(\omega_\tn{max} = \SI{4.4505895926}{\radian\per\s}\).
 Wtedy po saturacji mamy:
 \begin{equation}
-    \hat{\omega}_\tn{k+1} = \omega_\tn{k} + \sat(\omega_\tn{k} - \omega_\tn{k}, \epsilon_\tn{max} h)
+    \hat{\omega}_\tn{k+1} = \omega_\tn{k} + \sat(\omega_\tn{k} - \omega_0, \epsilon_\tn{max} h)
     \label{eq:badania-servo-speed-saturation}
 \end{equation}
 Ograniczając pożądaną prędkość serwa do wartości, która nie spowoduje przekroczenia zadanej pozycji steru w kroku czasowym \(k+1\) otrzymujemy:
